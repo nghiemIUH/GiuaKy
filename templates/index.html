@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Fa-Book</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        />
+        <link rel="stylesheet" href="{% static 'css/index.css'%}" />
+    </head>
+    <body>
+        <div class="header">
+            <div class="avatar">
+                <img
+                    src="{% static 'img/logo.png' %}"
+                    alt=""
+                    style="margin-left: 30px; border-radius: 10px"
+                />
+
+                <img
+                    src="{{ user.avatar.url }}"
+                    alt=""
+                    style="margin-left: 30px"
+                />
+                <div style="font-size: 1.1rem; font-weight: 600; padding: 10px">
+                    {{ user.username }}
+                </div>
+            </div>
+            <div class="options">
+                <div class="option" style="color: #77a7ff">
+                    <i class="fas fa-home"></i>
+                    <hr
+                        style="
+                            border-top: 1px solid #77a7ff;
+                            width: 50px;
+                            margin: auto;
+                        "
+                    />
+                </div>
+                <div class="option"><i class="fab fa-youtube"></i></div>
+                <div class="option"><i class="far fa-bell"></i></div>
+            </div>
+            <div
+                style="
+                    flex: 1;
+                    display: flex;
+                    flex-direction: row-reverse;
+                    padding-right: 30px;
+                "
+            >
+                <a href="{% url 'user:logout' %}">Logout</a>
+            </div>
+        </div>
+        <div class="content">
+            <div class="upload__post">
+                <div
+                    style="
+                        display: flex;
+                        flex: 2;
+                        justify-content: space-around;
+                    "
+                >
+                    <div style="font-size: 1.5rem">What's on your mind?</div>
+                    <img src="{% static 'img/smile.png' %}" alt="" />
+                    <img src="{% static 'img/sad.png' %}" alt="" />
+                    <img src="{% static 'img/angry.png' %}" alt="" />
+                </div>
+                <button id="post">Post</button>
+            </div>
+            {% for p in posts %}
+            <div class="post">
+                <div class="post__avatar">
+                    <div style="display: flex">
+                        <img src="{{ p.user.avatar.url}}" alt="" />
+                        <div class="username">{{ p.user.username }}</div>
+                    </div>
+                    <div
+                        style="
+                            font-weight: bold;
+                            font-size: 1.5rem;
+                            margin-top: -10px;
+                            margin-right: 10px;
+                        "
+                    >
+                        ...
+                    </div>
+                </div>
+                <div class="post__content">
+                    {{ p.content }}
+                </div>
+                <div class="post__image">
+                    <img
+                        src="{{ p.image.url }}"
+                        alt=""
+                    />
+                </div>
+                <div class="action">
+                    <span><i class="far fa-thumbs-up"></i>Like</span>
+                    <span><i class="far fa-comment-dots"></i>Comment</span>
+                    <span><i class="far fa-share-square"></i>Share</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="container">
+                        <label for="content"><b>Content</b></label>
+                        <textarea
+                            name="content"
+                            id=""
+                            cols="35"
+                            rows="10"
+                            style="
+                                resize: none;
+                                font-family: inherit;
+                                font-size: 1.1rem;
+                                padding: 5px;
+                            "
+                        ></textarea>
+
+                        <label for="psw"><b>Image</b></label>
+                        <input type="file" name="image" required />
+
+                        <button type="submit">POST</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script src="{% static 'js/index.js' %}"></script>
+    </body>
+</html>
