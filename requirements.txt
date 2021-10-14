@@ -1,0 +1,6 @@
+django
+django-storages
+gunicorn
+psycopg2-binary
+uwsgi
+boto3
